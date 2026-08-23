@@ -1,0 +1,12 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8001:8000"
+    environment:
+      - DB_PATH=data/csa_planner.db
+    volumes:
+      - csa_data:/app/data
+
+volumes:
+  csa_data:
