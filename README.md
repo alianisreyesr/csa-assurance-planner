@@ -2,6 +2,7 @@
 
 <div align="center">
 
+[![CI](https://github.com/alianisreyesr/csa-assurance-planner/actions/workflows/ci.yml/badge.svg)](https://github.com/alianisreyesr/csa-assurance-planner/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat&logo=fastapi&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-synthetic%20evidence-003B57?style=flat&logo=sqlite&logoColor=white)
@@ -21,11 +22,11 @@
 
 CSA Assurance Planner is a backend prototype for organizing assurance planning around intended use, risk, and evidence—not a one-size-fits-all test script. It supports:
 
-- CSA assessments tied to a system, GAMP category, intended use, and risk level.
-- Requirement-level assurance items with a documented CSA classification and test strategy.
-- QA/CSV-style reviews with a recorded decision and comment.
-- An append-oriented application audit log with server-generated UTC timestamps.
-- Synthetic seed data suitable for a portfolio demonstration.
+- CSA assessments tied to a system, GAMP category, intended use, and risk level
+- Requirement-level assurance items with a documented CSA classification and test strategy
+- QA/CSV-style reviews with a recorded decision and comment
+- An append-oriented application audit log with server-generated UTC timestamps
+- Synthetic seed data suitable for a portfolio demonstration
 
 ## CSA planning flow
 
@@ -108,12 +109,38 @@ Write endpoints require an `X-Actor` request header so the application can recor
 
 An assurance item can classify a function as `scripted`, `unscripted`, `critical_thinking`, `record`, or `signature`, and require a rationale plus test strategy. The classification is an educational planning aid, not a regulatory determination.
 
-## Scope and limitations
+## Scope & production path
 
-This project illustrates engineering and documentation patterns relevant to CSA, data integrity, and CSV. Production use would require authenticated identities, authorization, controlled change management, electronic-signature controls where applicable, immutable or independently protected audit records, formal validation/assurance, backups, monitoring, and organizational quality governance.
+This project illustrates engineering and documentation patterns relevant to CSA, data integrity, and CSV. A production implementation would additionally require authenticated identities, authorization, controlled change management, electronic-signature controls where applicable, immutable or independently protected audit records, formal validation/assurance, backups, monitoring, and organizational quality governance — each a well-defined engineering problem, not a gap in this prototype’s intent.
 
 See [docs/REGULATORY_REFERENCES.md](docs/REGULATORY_REFERENCES.md) and [docs/ROADMAP.md](docs/ROADMAP.md) for context and planned enhancements.
+
+---
+
+## Regulated Portfolio Ecosystem
+
+| Project | Domain Focus | Status |
+|---|---|---|
+| **[Quality Deviation Risk Monitor](https://github.com/alianisreyesr/quality-deviation-risk-monitor)** | Deviation prioritization & explainable risk scoring | ✅ Active · 57 tests |
+| **[CSV Evidence Tracker](https://github.com/alianisreyesr/csv-evidence-tracker)** | Requirements traceability, IQ/OQ/PQ test execution, audit trail | ✅ Active · 27 tests |
+| **[Data Integrity Case File](https://github.com/alianisreyesr/data-integrity-case-file)** | ALCOA+ investigation, CAPA readiness, local AI triage | ✅ Active |
+| **[GxP Change Control](https://github.com/alianisreyesr/gxp-change-control)** | Controlled change lifecycle & approvals | ✅ Active · 68 tests |
+| **[GxP Batch Data Pipeline](https://github.com/alianisreyesr/gxp-batch-data-pipeline)** | Batch manufacturing pipeline — DuckDB · dbt · Great Expectations | ✅ Active |
+
+---
 
 ## License
 
 MIT License. The license permits use of the code; it does not certify fitness for regulated use.
+
+---
+
+<div align="center">
+
+**Built by [Alianis Reyes-Reyes](https://www.linkedin.com/in/alianis-reyes-reyes/)**
+
+Information Systems @ UPRM · Eli Lilly Tech@Lilly Alumni
+
+*Assurance is proportional to risk — this prototype demonstrates exactly that principle.*
+
+</div>
