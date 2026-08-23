@@ -107,7 +107,7 @@ def seed() -> None:
                     (assessment_ref, title, system_name, gamp_category, intended_use, risk_level, status, created_by, created_at)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
-                    (*data, "planned", now(20 - index * 3)),
+                    (assessment_ref, *data, "planned", now(20 - index * 3)),
                 )
                 assessment_id = conn.execute("SELECT last_insert_rowid()").fetchone()[0]
                 assessment_ids.append(assessment_id)
