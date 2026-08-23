@@ -1,5 +1,7 @@
 from fastapi import FastAPI
+
 from .database import init_db
+from .router import router
 
 app = FastAPI(
     title="CSA Assurance Planner",
@@ -13,10 +15,4 @@ def startup() -> None:
     init_db()
 
 
-@app.get("/health")
-def health() -> dict:
-    return {
-        "status": "ok",
-        "service": "CSA Assurance Planner",
-        "data_boundary": "All records are synthetic and fictional.",
-    }
+app.include_router(router)
