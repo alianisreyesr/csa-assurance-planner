@@ -8,5 +8,13 @@ services:
     volumes:
       - csa_data:/app/data
 
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
 volumes:
   csa_data:

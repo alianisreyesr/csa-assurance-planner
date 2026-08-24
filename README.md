@@ -5,6 +5,7 @@
 [![CI](https://github.com/alianisreyesr/csa-assurance-planner/actions/workflows/ci.yml/badge.svg)](https://github.com/alianisreyesr/csa-assurance-planner/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat&logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react&logoColor=black)
 ![SQLite](https://img.shields.io/badge/SQLite-synthetic%20evidence-003B57?style=flat&logo=sqlite&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green?style=flat)
 
@@ -20,7 +21,7 @@
 
 ## What it demonstrates
 
-CSA Assurance Planner is a backend prototype for organizing assurance planning around intended use, risk, and evidence—not a one-size-fits-all test script. It supports:
+CSA Assurance Planner is a FastAPI + React prototype for organizing assurance planning around intended use, risk, and evidence—not a one-size-fits-all test script. It supports:
 
 - CSA assessments tied to a system, GAMP category, intended use, and risk level
 - Requirement-level assurance items with a documented CSA classification and test strategy
@@ -43,10 +44,12 @@ flowchart LR
 
 ```mermaid
 flowchart TD
+    UI[React planner UI]
     Client[API client / Swagger UI]
     API[FastAPI + Pydantic\nValidation and CSA workflow]
     DB[(SQLite\nAssessments · Assurance Items\nReviews · Audit Log)]
 
+    UI -->|HTTP / JSON| API
     Client -->|HTTP / JSON| API
     API -->|Parameterized SQL| DB
 ```
@@ -63,6 +66,7 @@ docker compose up --build
 
 - API health: `http://127.0.0.1:8001/health`
 - Swagger UI: `http://127.0.0.1:8001/docs`
+- Planner UI: `http://127.0.0.1:8080`
 
 ### Local development
 
@@ -73,6 +77,16 @@ pip install -r requirements.txt
 python data/seed.py
 uvicorn app.main:app --reload --port 8001
 ```
+
+Frontend (separate terminal):
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+- Planner UI: `http://127.0.0.1:5173` (Vite proxies `/api` to port 8001)
 
 Run the tests:
 
@@ -113,7 +127,7 @@ An assurance item can classify a function as `scripted`, `unscripted`, `critical
 
 This project illustrates engineering and documentation patterns relevant to CSA, data integrity, and CSV. A production implementation would additionally require authenticated identities, authorization, controlled change management, electronic-signature controls where applicable, immutable or independently protected audit records, formal validation/assurance, backups, monitoring, and organizational quality governance — each a well-defined engineering problem, not a gap in this prototype’s intent.
 
-See [docs/REGULATORY_REFERENCES.md](docs/REGULATORY_REFERENCES.md) and [docs/ROADMAP.md](docs/ROADMAP.md) for context and planned enhancements.
+See [docs/REGULATORY_REFERENCES.md](docs/REGULATORY_REFERENCES.md), [docs/GLOSSARY.md](docs/GLOSSARY.md), [docs/PORTFOLIO_SAFETY.md](docs/PORTFOLIO_SAFETY.md), and [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ---
 
@@ -125,13 +139,13 @@ See [docs/REGULATORY_REFERENCES.md](docs/REGULATORY_REFERENCES.md) and [docs/ROA
 | **[CSV Evidence Tracker](https://github.com/alianisreyesr/csv-evidence-tracker)** | Requirements traceability, IQ/OQ/PQ test execution, audit trail | ✅ Active · 27 tests |
 | **[Data Integrity Case File](https://github.com/alianisreyesr/data-integrity-case-file)** | ALCOA+ investigation, CAPA readiness, local AI triage | ✅ Active |
 | **[GxP Change Control](https://github.com/alianisreyesr/gxp-change-control)** | Controlled change lifecycle & approvals | ✅ Active · 68 tests |
-| **[GxP Batch Data Pipeline](https://github.com/alianisreyesr/gxp-batch-data-pipeline)** | Batch manufacturing pipeline — DuckDB · dbt · Great Expectations | ✅ Active |
+| **[GxP Batch Data Pipeline](https://github.com/alianisreyesr/gxp-batch-data-pipeline)** | Batch manufacturing pipeline — DuckDB · dbt · quality gates | ✅ Active |
 
 ---
 
 ## License
 
-MIT License. The license permits use of the code; it does not certify fitness for regulated use.
+MIT License — see [LICENSE](LICENSE). The license permits use of the code; it does not certify fitness for regulated use.
 
 ---
 
