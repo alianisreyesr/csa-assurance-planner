@@ -3,6 +3,7 @@
 <div align="center">
 
 [![CI](https://github.com/alianisreyesr/csa-assurance-planner/actions/workflows/ci.yml/badge.svg)](https://github.com/alianisreyesr/csa-assurance-planner/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/alianisreyesr/csa-assurance-planner/actions/workflows/codeql.yml/badge.svg)](https://github.com/alianisreyesr/csa-assurance-planner/actions/workflows/codeql.yml)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat&logo=fastapi&logoColor=white)
 ![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react&logoColor=black)
@@ -13,11 +14,21 @@
 
 *Portfolio-safe prototype · Synthetic records only · Not validated software*
 
+[Screenshots](#portfolio-preview) · [Quick start](#quick-start) · [Case study](docs/CASE_STUDY.md) · [Architecture](#architecture) · [Security](SECURITY.md)
+
 </div>
 
 ---
 
 > **Data boundary:** Every record and scenario in this repository is synthetic. Do not use it to approve releases, operate a regulated process, or claim regulatory compliance.
+
+## Portfolio preview
+
+| Assurance dashboard | New assessment flow |
+|---|---|
+| ![Synthetic CSA assurance dashboard](docs/assets/dashboard.png) | ![Synthetic risk-based assurance assessment form](docs/assets/new-plan.png) |
+
+See the [case study](docs/CASE_STUDY.md) for the business problem, users, decisions, evidence, and production boundary.
 
 ## What it demonstrates
 
