@@ -4,70 +4,67 @@
 
 [![CI](https://github.com/alianisreyesr/csa-assurance-planner/actions/workflows/ci.yml/badge.svg)](https://github.com/alianisreyesr/csa-assurance-planner/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/alianisreyesr/csa-assurance-planner/actions/workflows/codeql.yml/badge.svg)](https://github.com/alianisreyesr/csa-assurance-planner/actions/workflows/codeql.yml)
-![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat&logo=python&logoColor=white)
+[![License](https://img.shields.io/badge/license-MIT-green?style=flat)](LICENSE)
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat&logo=fastapi&logoColor=white)
-![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react&logoColor=black)
-![SQLite](https://img.shields.io/badge/SQLite-synthetic%20evidence-003B57?style=flat&logo=sqlite&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-green?style=flat)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=black)
+![SQLite](https://img.shields.io/badge/SQLite-evidence%20store-003B57?style=flat&logo=sqlite&logoColor=white)
 
-**Risk-based Computer Software Assurance planning for GxP-style workflows**
+**FDA CSA · Risk-Based Approach · Software Categorization · Assurance Planning · GxP**
 
-*Portfolio-safe prototype · Synthetic records only · Not validated software*
+*A portfolio-safe full-stack prototype for risk-proportionate software assurance planning*
 
-[Screenshots](#portfolio-preview) · [Quick start](#quick-start) · [Case study](docs/CASE_STUDY.md) · [Architecture](#architecture) · [Security](SECURITY.md)
+[Screenshots](#portfolio-preview) · [Quick Start](#quick-start) · [Case study](docs/CASE_STUDY.md) · [CSA Alignment](docs/CSA_ALIGNMENT.md) · [Architecture](docs/architecture.md)
 
 </div>
 
 ---
 
-> **Data boundary:** Every record and scenario in this repository is synthetic. Do not use it to approve releases, operate a regulated process, or claim regulatory compliance.
+> **Data boundary:** All software systems and assurance plans are fictional/synthetic. This repository contains no proprietary, employer, patient, or regulated production data. It is **not validated software** and must not be used to make regulated quality decisions.
+
+---
 
 ## Portfolio preview
 
-| Assurance dashboard | New assessment flow |
+| Assurance planning dashboard | Risk-based categorization |
 |---|---|
-| ![Synthetic CSA assurance dashboard](docs/assets/dashboard.png) | ![Synthetic risk-based assurance assessment form](docs/assets/new-plan.png) |
+| ![Synthetic CSA assurance planning dashboard](docs/assets/dashboard.png) | ![Synthetic risk-based software categorization](docs/assets/categorization.png) |
 
 See the [case study](docs/CASE_STUDY.md) for the business problem, users, decisions, evidence, and production boundary.
 
-## What it demonstrates
+## What This Is
 
-CSA Assurance Planner is a FastAPI + React prototype for organizing assurance planning around intended use, risk, and evidence—not a one-size-fits-all test script. It supports:
+CSA Assurance Planner models how a quality, IT compliance, or validation engineer translates the FDA Computer Software Assurance guidance into a structured, evidence-based workflow:
 
-- CSA assessments tied to a system, GAMP category, intended use, and risk level
-- Requirement-level assurance items with a documented CSA classification and test strategy
-- QA/CSV-style reviews with a recorded decision and comment
-- An append-oriented application audit log with server-generated UTC timestamps
-- Synthetic seed data suitable for a portfolio demonstration
+1. **Software intake** - Capture system name, intended use, GxP impact, and business criticality
+2. **Risk-based categorization** - Determine software category (Category 1-3) based on intended use and GxP impact
+3. **Assurance activity planning** - Generate proportionate testing and documentation activities based on category and risk
+4. **Evidence capture** - Record testing decisions, rationale, and outcomes with attributable audit trail
+5. **Assurance package** - Exportable summary of categorization rationale and planned/completed activities
 
-## CSA planning flow
+**Stack:** Python 3.11 · FastAPI 0.115 · Pydantic v2 · SQLite · React 19 · Docker Compose · GitHub Actions
 
-```mermaid
-flowchart LR
-    A[Define intended use] --> B[Assess patient/product/data risk]
-    B --> C[Select assurance approach]
-    C --> D[Document requirement-level evidence]
-    D --> E[QA/CSV review]
-    E --> F[Approved planning record]
-```
+---
 
-## Architecture
+## CSA Alignment
 
-```mermaid
-flowchart TD
-    UI[React planner UI]
-    Client[API client / Swagger UI]
-    API[FastAPI + Pydantic\nValidation and CSA workflow]
-    DB[(SQLite\nAssessments · Assurance Items\nReviews · Audit Log)]
+The FDA 2022 CSA guidance emphasizes a risk-based, critical thinking approach over prescriptive validation documentation. This project operationalizes those principles:
 
-    UI -->|HTTP / JSON| API
-    Client -->|HTTP / JSON| API
-    API -->|Parameterized SQL| DB
-```
+| CSA Principle | Implementation |
+|---|---|
+| **Risk-proportionate assurance** | Category determines activity scope; low-risk systems require minimal documentation |
+| **Intended use focus** | Categorization driven by patient safety and data integrity impact |
+| **Critical thinking** | Planner requires explicit rationale for categorization decisions |
+| **Leveraging supplier quality** | Category 1 (COTS) explicitly recognized with reduced testing burden |
+| **Ongoing oversight** | Activity records and audit trail support periodic review |
 
-## Quick start
+See [docs/CSA_ALIGNMENT.md](docs/CSA_ALIGNMENT.md) for the full regulatory mapping.
 
-### Docker
+---
+
+## Quick Start
+
+### Docker Compose - recommended
 
 ```bash
 git clone https://github.com/alianisreyesr/csa-assurance-planner.git
@@ -75,70 +72,53 @@ cd csa-assurance-planner
 docker compose up --build
 ```
 
-- API health: `http://127.0.0.1:8001/health`
-- Swagger UI: `http://127.0.0.1:8001/docs`
-- Planner UI: `http://127.0.0.1:8080`
+Then open:
+- Application: `http://localhost/`
+- API health: `http://localhost/health`
+- API docs: `http://localhost/docs`
 
 ### Local development
 
 ```bash
+# Backend
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
+source .venv/bin/activate
 pip install -r requirements.txt
-python data/seed.py
-uvicorn app.main:app --reload --port 8001
-```
+uvicorn app.main:app --reload
 
-Frontend (separate terminal):
-
-```bash
+# Frontend (new terminal)
 cd frontend
 npm install
 npm run dev
 ```
 
-- Planner UI: `http://127.0.0.1:5173` (Vite proxies `/api` to port 8001)
+---
 
-Run the tests:
-
-```bash
-pytest tests/ -v
-```
-
-## API surface
+## API Surface
 
 | Endpoint | Method | Purpose |
 |---|---|---|
-| `/health` | GET | API status and synthetic-data declaration |
-| `/summary` | GET | Counts for assessments, high-risk records, items, and approved reviews |
-| `/assessments` | GET / POST | List or create CSA assessments |
-| `/assessments/{id}` | GET | Retrieve one assessment |
-| `/assessments/{id}/items` | GET / POST | List or add requirement-level assurance items |
-| `/assessments/{id}/reviews` | GET / POST | List or record review decisions |
-| `/audit-log` | GET | Retrieve the append-oriented audit history; filter by `assessment_id` |
+| `/health` | GET | Service state + data boundary |
+| `/summary` | GET | Portfolio-level assurance metrics |
+| `/systems` | GET / POST | List or register software systems |
+| `/systems/{id}` | GET | System detail |
+| `/systems/{id}/categorize` | POST | Record risk-based categorization decision |
+| `/systems/{id}/activities` | GET / POST | List or add assurance activities |
+| `/systems/{id}/activities/{aid}` | PATCH | Update activity status or evidence |
+| `/systems/{id}/assurance-package` | GET | Export categorization + activity summary |
+| `/audit-log` | GET | Full attributable audit trail |
 
-Write endpoints require an `X-Actor` request header so the application can record the actor in its own audit log.
+---
 
-## Example assessment
+## Software Categories
 
-```json
-{
-  "title": "LIMS audit trail review strategy",
-  "system_name": "LIMS-01",
-  "gamp_category": "4",
-  "intended_use": "Define a risk-based assurance approach for audit trail review.",
-  "risk_level": "high",
-  "created_by": "A.Reyes"
-}
-```
+| Category | Description | Assurance Approach |
+|---|---|---|
+| **Category 1** | Infrastructure / COTS used as-is | Supplier qualification focus; minimal additional testing |
+| **Category 2** | Configured COTS / low GxP impact | Risk-based testing of configuration; reduced documentation |
+| **Category 3** | Custom software / direct GxP impact | Full assurance lifecycle; test protocols, evidence, and rationale |
 
-An assurance item can classify a function as `scripted`, `unscripted`, `critical_thinking`, `record`, or `signature`, and require a rationale plus test strategy. The classification is an educational planning aid, not a regulatory determination.
-
-## Scope & production path
-
-This project illustrates engineering and documentation patterns relevant to CSA, data integrity, and CSV. A production implementation would additionally require authenticated identities, authorization, controlled change management, electronic-signature controls where applicable, immutable or independently protected audit records, formal validation/assurance, backups, monitoring, and organizational quality governance — each a well-defined engineering problem, not a gap in this prototype’s intent.
-
-See [docs/REGULATORY_REFERENCES.md](docs/REGULATORY_REFERENCES.md), [docs/GLOSSARY.md](docs/GLOSSARY.md), [docs/PORTFOLIO_SAFETY.md](docs/PORTFOLIO_SAFETY.md), and [docs/ROADMAP.md](docs/ROADMAP.md).
+Categorization is recorded with explicit rationale, assessor identity, and UTC timestamp.
 
 ---
 
@@ -146,17 +126,11 @@ See [docs/REGULATORY_REFERENCES.md](docs/REGULATORY_REFERENCES.md), [docs/GLOSSA
 
 | Project | Domain Focus | Status |
 |---|---|---|
-| **[Quality Deviation Risk Monitor](https://github.com/alianisreyesr/quality-deviation-risk-monitor)** | Deviation prioritization & explainable risk scoring | ✅ Active · 57 tests |
+| **[Quality Deviation Risk Monitor](https://github.com/alianisreyesr/quality-deviation-risk-monitor)** | Deviation prioritization & explainable risk scoring | ✅ Active · 112 tests |
 | **[CSV Evidence Tracker](https://github.com/alianisreyesr/csv-evidence-tracker)** | Requirements traceability, IQ/OQ/PQ test execution, audit trail | ✅ Active · 27 tests |
-| **[Data Integrity Case File](https://github.com/alianisreyesr/data-integrity-case-file)** | ALCOA+ investigation, CAPA readiness, local AI triage | ✅ Active |
 | **[GxP Change Control](https://github.com/alianisreyesr/gxp-change-control)** | Controlled change lifecycle & approvals | ✅ Active · 68 tests |
-| **[GxP Batch Data Pipeline](https://github.com/alianisreyesr/gxp-batch-data-pipeline)** | Batch manufacturing pipeline — DuckDB · dbt · quality gates | ✅ Active |
-
----
-
-## License
-
-MIT License — see [LICENSE](LICENSE). The license permits use of the code; it does not certify fitness for regulated use.
+| **[Data Integrity Case File](https://github.com/alianisreyesr/data-integrity-case-file)** | ALCOA+ investigation, CAPA readiness, local AI triage | ✅ Active |
+| **[GxP Batch Data Pipeline](https://github.com/alianisreyesr/gxp-batch-data-pipeline)** | Batch manufacturing pipeline — DuckDB · dbt · quality gates | ✅ Active · 12 tests |
 
 ---
 
@@ -166,6 +140,6 @@ MIT License — see [LICENSE](LICENSE). The license permits use of the code; it 
 
 Information Systems @ UPRM · Eli Lilly Tech@Lilly Alumni
 
-*Assurance is proportional to risk — this prototype demonstrates exactly that principle.*
+*Assurance should be proportionate to risk - not to the thickness of the binder.*
 
 </div>
