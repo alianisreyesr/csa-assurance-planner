@@ -27,6 +27,15 @@ class AssessmentOut(BaseModel):
     status: str
     created_by: str
     created_at: str
+    consistency_notes: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Advisory, explainable notes when gamp_category and risk_level "
+            "look inconsistent (see app/rules.py). Non-blocking — this app "
+            "doesn't derive risk_level for the user, only flags combinations "
+            "worth a second look."
+        ),
+    )
 
 
 class AssuranceItemCreate(BaseModel):
@@ -46,6 +55,14 @@ class AssuranceItemOut(BaseModel):
     rationale: str
     test_strategy: str
     created_at: str
+    consistency_notes: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Advisory notes when this item's csa_class looks light relative "
+            "to the parent assessment's risk_level (see app/rules.py). "
+            "Non-blocking."
+        ),
+    )
 
 
 class ReviewCreate(BaseModel):

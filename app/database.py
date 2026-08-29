@@ -1,5 +1,6 @@
 import os
 import sqlite3
+from typing import Iterator
 
 DB_PATH = os.getenv("DB_PATH", "data/csa_planner.db")
 
@@ -10,6 +11,16 @@ def get_connection() -> sqlite3.Connection:
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA journal_mode=WAL")
     return conn
+
+
+def get_db() -> Iterator[sqlite3.Connection]:
+    """FastAPI dependency: yield a connection and guarantee it's closed,
+    without every route handler repeating its own try/finally."""
+    conn = get_connection()
+    try:
+        yield conn
+    finally:
+        conn.close()
 
 
 def init_db() -> None:

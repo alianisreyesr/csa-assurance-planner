@@ -185,6 +185,7 @@ button.link {
 .timeline .actor { font-weight: 700; color: var(--navy); }
 .timeline .time { color: var(--muted); font-size: 0.75rem; }
 .error { color: var(--danger); font-weight: 600; }
+.warning { color: #8a5200; font-size: 0.85rem; margin: 0.25rem 0 0; }
 .muted { color: var(--muted); font-size: 0.85rem; }
 
 @media (max-width: 640px) {

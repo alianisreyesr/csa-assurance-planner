@@ -283,6 +283,11 @@ function AssessmentDetail({
         <p className="muted">
           Opened by {assessment.created_by} at {assessment.created_at}
         </p>
+        {assessment.consistency_notes.map((note, idx) => (
+          <p key={idx} className="warning">
+            ⚠ {note}
+          </p>
+        ))}
       </section>
 
       {error && <p className="error">{error}</p>}
@@ -306,6 +311,11 @@ function AssessmentDetail({
                   <td>{item.function_name}</td>
                   <td>
                     <span className="badge ok">{item.csa_class}</span>
+                    {item.consistency_notes.map((note, idx) => (
+                      <p key={idx} className="warning">
+                        ⚠ {note}
+                      </p>
+                    ))}
                   </td>
                   <td>{item.test_strategy}</td>
                 </tr>
