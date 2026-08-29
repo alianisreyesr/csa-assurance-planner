@@ -26,6 +26,8 @@ export interface Assessment {
   status: string;
   created_by: string;
   created_at: string;
+  /** Advisory, non-blocking notes when gamp_category/risk_level look inconsistent. */
+  consistency_notes: string[];
 }
 
 export interface AssuranceItem {
@@ -37,6 +39,8 @@ export interface AssuranceItem {
   rationale: string;
   test_strategy: string;
   created_at: string;
+  /** Advisory, non-blocking notes when csa_class looks light for the assessment's risk_level. */
+  consistency_notes: string[];
 }
 
 export interface Review {

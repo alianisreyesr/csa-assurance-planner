@@ -3,24 +3,14 @@ from __future__ import annotations
 
 import os
 import random
-import string
 import sys
-from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from app.database import get_connection, init_db
+from app.utils import now, reference
 
 random.seed(7)
-
-
-def now(days_ago: int = 0) -> str:
-    return (datetime.now(timezone.utc) - timedelta(days=days_ago)).isoformat()
-
-
-def reference() -> str:
-    suffix = "".join(random.choices(string.ascii_uppercase + string.digits, k=6))
-    return f"CSA-{suffix}"
 
 
 ASSESSMENTS = [
@@ -107,7 +97,13 @@ def seed() -> None:
                     (assessment_ref, title, system_name, gamp_category, intended_use, risk_level, status, created_by, created_at)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
-                    (assessment_ref, *data, "planned", now(20 - index * 3)),
+                    # data = (title, system_name, gamp_category, intended_use,
+                    # risk_level, created_by) — "planned" (status) must be
+                    # inserted before created_by, matching the column list
+                    # above. Splicing it in after *data unpacked put
+                    # created_by's value into the status column and
+                    # "planned" into created_by.
+                    (assessment_ref, *data[:5], "planned", data[5], now(20 - index * 3)),
                 )
                 assessment_id = conn.execute("SELECT last_insert_rowid()").fetchone()[0]
                 assessment_ids.append(assessment_id)

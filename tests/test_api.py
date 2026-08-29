@@ -101,3 +101,46 @@ def test_summary_reflects_assessment():
 def test_missing_assessment_returns_404():
     response = client.get("/assessments/99999")
     assert response.status_code == 404
+
+
+def test_category_5_low_risk_gets_consistency_note():
+    payload = assessment_payload()
+    payload["gamp_category"] = "5"
+    payload["risk_level"] = "low"
+    response = client.post("/assessments", json=payload, headers={"x-actor": "tester"})
+    assert response.status_code == 201
+    notes = response.json()["consistency_notes"]
+    assert any("Category 5" in n for n in notes)
+
+
+def test_typical_category_risk_combo_has_no_note():
+    assessment_id = create_assessment()  # category 4 / high — unremarkable
+    response = client.get(f"/assessments/{assessment_id}")
+    assert response.json()["consistency_notes"] == []
+
+
+def test_high_risk_unscripted_item_gets_consistency_note():
+    assessment_id = create_assessment()  # risk_level=high
+    item = {
+        "requirement_ref": "REQ-002",
+        "function_name": "Exception routing",
+        "csa_class": "unscripted",
+        "rationale": "Exploratory coverage based on reviewer judgment.",
+        "test_strategy": "Ad hoc exploratory testing.",
+    }
+    response = client.post(
+        f"/assessments/{assessment_id}/items", json=item, headers={"x-actor": "tester"}
+    )
+    assert response.status_code == 201
+    notes = response.json()["consistency_notes"]
+    assert any("unscripted" in n for n in notes)
+
+
+def test_actor_header_must_be_within_length_bounds():
+    response = client.post("/assessments", json=assessment_payload(), headers={"x-actor": "a"})
+    assert response.status_code == 422
+
+    response = client.post(
+        "/assessments", json=assessment_payload(), headers={"x-actor": "x" * 200}
+    )
+    assert response.status_code == 422
