@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from typing import Iterator
+from collections.abc import Iterator
 
 DB_PATH = os.getenv("DB_PATH", "data/csa_planner.db")
 

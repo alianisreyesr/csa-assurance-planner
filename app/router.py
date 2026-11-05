@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import sqlite3
-from typing import Optional
 
 from fastapi import APIRouter, Depends, Header, HTTPException
 
@@ -26,8 +25,8 @@ def _audit(
     conn: sqlite3.Connection,
     actor: str,
     action: str,
-    assessment_id: Optional[int] = None,
-    detail: Optional[str] = None,
+    assessment_id: int | None = None,
+    detail: str | None = None,
 ) -> None:
     conn.execute(
         "INSERT INTO audit_log (assessment_id, actor, action, detail, created_at) VALUES (?, ?, ?, ?, ?)",
@@ -78,7 +77,7 @@ def summary(conn: sqlite3.Connection = Depends(get_db)) -> SummaryOut:
 
 @router.get("/assessments", response_model=list[AssessmentOut])
 def list_assessments(
-    status: Optional[str] = None,
+    status: str | None = None,
     conn: sqlite3.Connection = Depends(get_db),
 ) -> list[dict]:
     if status:
@@ -201,7 +200,7 @@ def add_review(
 
 @router.get("/audit-log")
 def audit_log(
-    assessment_id: Optional[int] = None,
+    assessment_id: int | None = None,
     conn: sqlite3.Connection = Depends(get_db),
 ) -> list[dict]:
     if assessment_id is None:

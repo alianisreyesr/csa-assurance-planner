@@ -21,7 +21,10 @@
 - [x] Docker Compose (API + frontend)
 - [x] CORS allowlist for local UI
 - [ ] Authenticated identities / RBAC (production path, not this prototype)
-- [ ] Coverage gate in CI
+- [x] Coverage gate in CI (85 %)
+- [x] Lint (ruff), type-check (mypy) and dependency audit (pip-audit) in CI
+- [x] Reproducible installs (`npm ci` with lockfile, pinned Python requirements)
+- [x] Frontend unit tests (vitest)
 
 ## Principle
 Risk drives depth of assurance — documented explicitly, never implied as regulatory approval.

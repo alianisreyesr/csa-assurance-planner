@@ -1,8 +1,8 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from app.main import app
 from app.database import init_db
+from app.main import app
 
 client = TestClient(app)
 
@@ -11,7 +11,7 @@ client = TestClient(app)
 def isolated_database(tmp_path, monkeypatch):
     path = str(tmp_path / "test.db")
     monkeypatch.setenv("DB_PATH", path)
-    import app.database as database
+    from app import database
 
     database.DB_PATH = path
     init_db()

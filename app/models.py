@@ -1,4 +1,5 @@
-from typing import Literal, Optional
+from typing import Literal
+
 from pydantic import BaseModel, Field
 
 GampCategory = Literal["1", "3", "4", "5"]
@@ -68,7 +69,7 @@ class AssuranceItemOut(BaseModel):
 class ReviewCreate(BaseModel):
     reviewer: str = Field(..., min_length=2, max_length=80)
     decision: ReviewDecision
-    comment: Optional[str] = Field(None, max_length=500)
+    comment: str | None = Field(None, max_length=500)
 
 
 class ReviewOut(BaseModel):
@@ -76,7 +77,7 @@ class ReviewOut(BaseModel):
     assessment_id: int
     reviewer: str
     decision: str
-    comment: Optional[str]
+    comment: str | None
     reviewed_at: str
 
 

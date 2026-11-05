@@ -6,6 +6,19 @@ The project follows semantic versioning for public portfolio releases. Version n
 
 ## [Unreleased]
 
+### Changed
+
+- Version numbers aligned: API (`app/main.py`) and `frontend/package.json` now report 1.0.0, matching the changelog
+- Runtime and dev requirements split and pinned; pytest/httpx no longer ship in the production image
+- CI: ruff and mypy added, `pip-audit` pinned, least-privilege `permissions:`, coverage gate raised to 85 %, `npm ci` with the committed lockfile (also in `frontend/Dockerfile`)
+- Fixed all ruff findings (import order, `X | None` annotations, `datetime.UTC`); added `ruff.toml`
+- README: React 18 (not 19) and correct Docker Compose ports (UI 8080, API 8001); ROADMAP items marked complete
+
+### Added
+
+- Frontend unit tests (vitest) for the API client
+- More complete `.gitignore`
+
 ### Fixed
 
 - Recording a review now updates `assessments.status` (`approve` -> `approved`, `needs_revision` -> `needs_revision`) so the `?status=` filter reflects the review lifecycle

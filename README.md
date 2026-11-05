@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green?style=flat)](LICENSE)
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat&logo=fastapi&logoColor=white)
-![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=black)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react&logoColor=black)
 ![SQLite](https://img.shields.io/badge/SQLite-evidence%20store-003B57?style=flat&logo=sqlite&logoColor=white)
 
 **FDA CSA · Risk-Based Approach · GAMP 5 · Assurance Planning · GxP**
@@ -42,7 +42,7 @@ CSA Assurance Planner models how a quality, IT compliance, or validation enginee
 
 This tool does not derive risk level or GAMP category for the user — those are always the assessor's documented judgment, per CSA's risk-based, critical-thinking approach. What it does do is keep that judgment visible, attributable, and flagged for a second look when a combination is unusual.
 
-**Stack:** Python 3.11 · FastAPI · Pydantic v2 · SQLite · React 19 + TypeScript · Docker Compose · GitHub Actions
+**Stack:** Python 3.11 · FastAPI · Pydantic v2 · SQLite · React 18 + TypeScript · Docker Compose · GitHub Actions
 
 ---
 
@@ -73,9 +73,9 @@ docker compose up --build
 ```
 
 Then open:
-- Application: `http://localhost/`
-- API health: `http://localhost/health`
-- API docs: `http://localhost/docs`
+- Application (UI): `http://localhost:8080/`
+- API health: `http://localhost:8001/health` (also via the UI proxy at `http://localhost:8080/api/health`)
+- API docs: `http://localhost:8001/docs`
 
 ### Local development
 
@@ -84,14 +84,14 @@ Then open:
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --port 8001   # the Vite dev proxy targets :8001
 
 # Seed synthetic data (optional — the app works with an empty database too)
 python data/seed.py
 
 # Frontend (new terminal)
 cd frontend
-npm install
+npm ci
 npm run dev
 ```
 
