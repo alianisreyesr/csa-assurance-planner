@@ -58,6 +58,10 @@ def _serialize_item(row: sqlite3.Row, assessment_risk_level: str) -> dict:
     return data
 
 
+# Assessment status resulting from the most recent review decision.
+REVIEW_STATUS = {"approve": "approved", "needs_revision": "needs_revision"}
+
+
 @router.get("/summary", response_model=SummaryOut)
 def summary(conn: sqlite3.Connection = Depends(get_db)) -> SummaryOut:
     total = conn.execute("SELECT COUNT(*) FROM assessments").fetchone()[0]
@@ -186,7 +190,11 @@ def add_review(
             (assessment_id, body.reviewer, body.decision, body.comment, now),
         )
         review_id = conn.execute("SELECT last_insert_rowid()").fetchone()[0]
-        _audit(conn, actor, "review_recorded", assessment_id, f"decision={body.decision}")
+        # The latest review decision drives the assessment lifecycle
+        # (planned -> approved | needs_revision).
+        new_status = REVIEW_STATUS[body.decision]
+        conn.execute("UPDATE assessments SET status = ? WHERE id = ?", (new_status, assessment_id))
+        _audit(conn, actor, "review_recorded", assessment_id, f"decision={body.decision}; status={new_status}")
     row = conn.execute("SELECT * FROM reviews WHERE id = ?", (review_id,)).fetchone()
     return dict(row)
 

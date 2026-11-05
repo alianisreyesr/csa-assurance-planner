@@ -144,3 +144,25 @@ def test_actor_header_must_be_within_length_bounds():
         "/assessments", json=assessment_payload(), headers={"x-actor": "x" * 200}
     )
     assert response.status_code == 422
+
+
+def _review(assessment_id, decision):
+    return client.post(
+        f"/assessments/{assessment_id}/reviews",
+        json={"reviewer": "qa_reviewer", "decision": decision, "comment": "Checked."},
+        headers={"x-actor": "qa_reviewer"},
+    )
+
+
+def test_review_updates_assessment_status():
+    assessment_id = create_assessment()
+    assert client.get(f"/assessments/{assessment_id}").json()["status"] == "planned"
+
+    assert _review(assessment_id, "needs_revision").status_code == 201
+    assert client.get(f"/assessments/{assessment_id}").json()["status"] == "needs_revision"
+
+    assert _review(assessment_id, "approve").status_code == 201
+    assert client.get(f"/assessments/{assessment_id}").json()["status"] == "approved"
+    approved = client.get("/assessments", params={"status": "approved"}).json()
+    assert [a["id"] for a in approved] == [assessment_id]
+    assert client.get("/assessments", params={"status": "planned"}).json() == []
