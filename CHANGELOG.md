@@ -6,8 +6,13 @@ The project follows semantic versioning for public portfolio releases. Version n
 
 ## [Unreleased]
 
+### Added
+
+- README: assessment workflow diagram and a summary of the two advisory consistency checks.
+
 ### Changed
 
+- README tagline leads with the engineering problem instead of the portfolio boundary.
 - Version numbers aligned: API (`app/main.py`) and `frontend/package.json` now report 1.0.0, matching the changelog
 - Runtime and dev requirements split and pinned; pytest/httpx no longer ship in the production image
 - CI: ruff and mypy added, `pip-audit` pinned, least-privilege `permissions:`, coverage gate raised to 85 %, `npm ci` with the committed lockfile (also in `frontend/Dockerfile`)
