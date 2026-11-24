@@ -1,27 +1,11 @@
-# Monthly cadence; minor/patch updates are grouped into one PR per ecosystem.
-# Major-version bumps stay as individual PRs so they can be reviewed on their own.
 version: 2
 updates:
   - package-ecosystem: pip
     directory: "/"
-    schedule: { interval: monthly }
-    groups:
-      minor-and-patch:
-        update-types:
-          - minor
-          - patch
+    schedule: { interval: weekly }
   - package-ecosystem: npm
     directory: "/frontend"
-    schedule: { interval: monthly }
-    groups:
-      minor-and-patch:
-        update-types:
-          - minor
-          - patch
+    schedule: { interval: weekly }
   - package-ecosystem: github-actions
     directory: "/"
     schedule: { interval: monthly }
-    groups:
-      github-actions:
-        patterns:
-          - "*"
