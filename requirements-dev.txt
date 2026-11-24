@@ -10,7 +10,7 @@ pytest-cov==7.1.0      # coverage reporting
 coverage[toml]==7.17.2
 
 # Linting / typing
-ruff==0.17.3
+ruff==0.17.6
 mypy==2.4.1
 
 # Security
