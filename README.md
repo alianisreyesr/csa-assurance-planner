@@ -12,7 +12,7 @@
 
 **FDA CSA · Risk-Based Approach · GAMP 5 · Assurance Planning · GxP**
 
-*A portfolio-safe full-stack prototype for risk-proportionate software assurance planning*
+*Risk-proportionate Computer Software Assurance planning for GxP systems — full-stack prototype (synthetic data)*
 
 [Screenshots](#portfolio-preview) · [Quick Start](#quick-start) · [Case study](docs/CASE_STUDY.md) · [CSA Alignment](#csa-alignment) · [API Surface](#api-surface)
 
@@ -45,6 +45,33 @@ This tool does not derive risk level or GAMP category for the user — those are
 **Stack:** Python 3.11 · FastAPI · Pydantic v2 · SQLite · React 18 + TypeScript · Docker Compose · GitHub Actions
 
 ---
+
+## Assessment workflow
+
+```mermaid
+flowchart LR
+    A["Assessment intake<br/>system · GAMP category · intended use · risk level"] --> B["Assurance items<br/>CSA class + rationale per requirement"]
+    B --> C{"Consistency checks<br/>(advisory, never blocking)"}
+    C -->|"flag raised"| D["Assessor documents rationale"]
+    C -->|"nothing unusual"| E
+    D --> E["Quality review<br/>approve · needs revision"]
+    E -->|approve| F["status: approved"]
+    E -->|needs_revision| G["status: needs_revision"]
+    G --> B
+    A -.-> H[("Append-only audit log<br/>actor · action · UTC timestamp")]
+    B -.-> H
+    E -.-> H
+```
+
+### Consistency checks at a glance
+
+The two checks implemented in [`app/rules.py`](app/rules.py) are the only flags the tool raises. Each one is a prompt to document a rationale, never a rejection:
+
+| Situation | Flag raised | Why it deserves a second look |
+|---|---|---|
+| GAMP Category 5 (custom/bespoke) with `risk_level = low` | Yes | Custom software carries the highest inherent risk profile of any GAMP category; the intended use should justify "low" |
+| High-risk assessment with an item that relies only on `unscripted` testing | Yes | CSA expects assurance rigor to scale with risk; the rationale should explain why unscripted coverage is enough |
+| Any other combination of category, risk level and CSA class | No | Risk determination is the assessor's judgment, not a lookup table |
 
 ## CSA Alignment
 
@@ -144,9 +171,9 @@ Every assessment and assurance item response includes `consistency_notes`: an ar
 
 <div align="center">
 
-**Built by [Alianis Reyes-Reyes](https://www.linkedin.com/in/alianis-reyes-reyes/)**
+**Built by [Alianis Reyes Reyes](https://www.linkedin.com/in/alianis-reyes-reyes/)**
 
-Information Systems @ UPRM · Eli Lilly Tech@Lilly Alumni
+Information Systems @ UPRM
 
 *Assurance should be proportionate to risk - not to the thickness of the binder.*
 
