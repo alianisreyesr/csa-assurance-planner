@@ -173,7 +173,7 @@ Every assessment and assurance item response includes `consistency_notes`: an ar
 
 **Built by [Alianis Reyes Reyes](https://www.linkedin.com/in/alianis-reyes-reyes/)**
 
-Information Systems @ UPRM · Eli Lilly Tech@Lilly Alumni
+Information Systems @ UPRM
 
 *Assurance should be proportionate to risk - not to the thickness of the binder.*
 
